@@ -30,7 +30,7 @@ function format_bytes($size, $delimiter = '')
 
 /**
  * 基于数组创建目录和文件
- * @param unknown $files
+ * @param mixed $files
  */
 function create_dir_or_files($files)
 {
@@ -45,7 +45,7 @@ function create_dir_or_files($files)
 
 /**
  *  判断是否是word文档
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isWord($type)
@@ -70,7 +70,7 @@ function isWord($type)
 
 /**
  * 判断是否是PPT
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isPPT($type)
@@ -94,7 +94,7 @@ function isPPT($type)
 
 /**
  * 判断是否是微软的PPT格式
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isMicrosoftPPT($type)
@@ -116,6 +116,7 @@ function isMicrosoftPPT($type)
  * 判断是不是 pdf
  * Enter description here ...
  * @param $type
+ * @return bool
  */
 function isPDF($type)
 {
@@ -133,7 +134,7 @@ function isPDF($type)
 
 /**
  *  是否是excel类型
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isExcel($type)
@@ -146,7 +147,7 @@ function isExcel($type)
 
 /**
  * 判断是否为微软的office
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isMicrosoftExcel($type)
@@ -166,7 +167,7 @@ function isMicrosoftExcel($type)
 
 /**
  * 判断是否为wps的excel
- * @param unknown $type
+ * @param string $type
  */
 function isWPSExcel($type)
 {
@@ -188,6 +189,7 @@ function isWPSExcel($type)
  * 判断是不是 Scratch格式
  * Enter description here ...
  * @param $type
+ * @return bool
  */
 function isScratch($type)
 {
@@ -209,6 +211,7 @@ function isScratch($type)
  * 判断是不是思维导图的文件
  * Enter description here ...
  * @param $type
+ * @return bool
  */
 function isMind($type)
 {
@@ -227,7 +230,7 @@ function isMind($type)
 
 /**
  * 判断是不是文本类型
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isText($type)
@@ -241,7 +244,7 @@ function isText($type)
 
 /**
  * 判断是否是压缩包
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isZip($type)
@@ -261,7 +264,7 @@ function isZip($type)
 
 /**
  * 判断是否为maya的格式
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isMaya($type)
@@ -281,7 +284,7 @@ function isMaya($type)
 
 /**
  * 支持文档清洗类型
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isDocument($type)
@@ -309,7 +312,7 @@ function isDocument($type)
 
 /**
  * 判断一个文件，是否是代码文件，可否直接代码预览
- * @param unknown $type
+ * @param string $type
  * @return boolean
  */
 function isCode($type)
@@ -369,8 +372,8 @@ function trimall($str)
 
 /**
  * 常见的正则表达式判断
- * @param unknown $value
- * @param unknown $rule
+ * @param string $value
+ * @param string $rule
  * @return boolean
  */
 function regex($value, $rule)
@@ -408,7 +411,7 @@ function getOssObjectKey($url)
 /**
  * 去掉http: 或者 https:这两个标示
  * Enter description here ...
- * @param unknown_type $url
+ * @param string $url
  */
 function removeHttp($url)
 {
@@ -433,7 +436,8 @@ function removeHttp($url)
  * 删除掉无用的一些字符串
  * Enter description here ...
  * @param $str
- * @param $removeStr
+ * @param string $removeStr
+ * @return array|string|string[]|null
  */
 function removeLastEmpty($str, $removeStr = '<p><br></p>')
 {
@@ -467,6 +471,7 @@ function removeLastEmpty($str, $removeStr = '<p><br></p>')
  * 获取分页数
  * Enter description here ...
  * @param $count
+ * @return int
  */
 function getPages($count)
 {
@@ -585,7 +590,7 @@ function __json_encode($data)
         if ($islist) {
             $json = '[' . implode(',', array_map('__json_encode', $data)) . ']';
         } else {
-            $items = Array();
+            $items = array();
             foreach ($data as $key => $value) {
                 $items[] = __json_encode("$key") . ':' . __json_encode($value);
             }
@@ -639,9 +644,9 @@ function __json_encode($data)
 /**
  * 将字符串变成了数组，有可能本身就是 数组了
  * Enter description here ...
- * @param unknown_type $ids
+ * @param string $ids
  */
-function getIdsArray($ids,$chart = '|')
+function getIdsArray($ids, $chart = '|')
 {
     if (is_array($ids)) {
         return $ids;
@@ -678,7 +683,11 @@ function numeber_to_letter($number = 0)
 }
 
 
-// 过滤掉emoji表情
+/**
+ * Notes: 过滤 emoji 表情
+ * @param $str
+ * @return array|string|string[]|null
+ */
 function filter_Emoji($str)
 {
     $str = preg_replace_callback(
@@ -691,12 +700,22 @@ function filter_Emoji($str)
     return $str;
 }
 
+/**
+ * Notes: 过滤 emoji 表情 （包含 颜文字）
+ * @param string $str
+ */
+function filter_Emoji_v2($str)
+{
+    preg_match_all('/[\x{4e00}-\x{9fff}\d\w\s[:punct:]]+/u', $str, $result);
+    return join('', $result[0]);
+}
+
 
 /**
  * 去除两字符串之间的内容
- * @param $content  内容
- * @param $text1    第一个字符串
- * @param $text2    第二个字符串
+ * @param string $content 内容
+ * @param string $text1 第一个字符串
+ * @param string $text2 第二个字符串
  * @return string   去除内容之后的字符串
  */
 function removeIntermediateContent($content, $text1, $text2)
@@ -737,15 +756,13 @@ function removeIntermediateContent($content, $text1, $text2)
 /**
  * 识别换行符并替换为指定字符
  * @param        $content
- * @param string $str       替换为目标字符
+ * @param string $str 替换为目标字符
  *
  * @return mixed
- *
- * @auther higanbana
- * @date   2020/1/18 17:29
  */
-function brmarkReplace($content,$str='<br/>')
+function brmarkReplace($content, $str = '<br/>')
 {
-    $order=["\r\n","\n","\r"];
-    return str_replace($order,$str,$content);
+    $order = ["\r\n", "\n", "\r"];
+    return str_replace($order, $str, $content);
 }
+
