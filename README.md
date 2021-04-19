@@ -10,3 +10,7 @@ Collect all kinds of plug-ins and small objects in the language
 
 
 > 期待一起整合   2019.04.12
+
+
+
+[LICENSE](https://github.com/ogreks/treasures/blob/master/LICENSE)
